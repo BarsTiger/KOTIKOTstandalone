@@ -151,7 +151,7 @@ while True:
         specif.append(int(input("Type here price of item (without spaces or comas): ")))
         database[nameofnewitem] = specif
         basewrite = open('whattobuy.database', 'w+')
-        json.dump(database, basewrite, indent=3)
+        json.dump(database, basewrite, indent=3, ensure_ascii=False)
         basewrite.close()
 
     elif doing == "7":
