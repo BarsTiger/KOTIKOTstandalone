@@ -1,4 +1,4 @@
-import json, os
+import json, os, shutil
 
 def getkey(value, dictionary):
     for key, val in dictionary.items():
@@ -97,7 +97,8 @@ while True:
     print("4 - Print all items by shop")
     print("5 - Print all items by price below this")
     print("6 - Add new item to database")
-    print("7 - Exit")
+    print("7 - Create backup of database")
+    print("8 - Exit")
     doing = input("Type here: ")
     print()
 
@@ -154,6 +155,13 @@ while True:
         basewrite.close()
 
     elif doing == "7":
+        shutil.copy("whattobuy.database", "whattobuy.databack")
+        if os.path.isfile('whattobuy.databack'):
+            print("Backup successful")
+        print()
+
+
+    elif doing == "8":
         print("---------------------------------------------------------------------")
         input("To exit press Enter...")
         exit()
