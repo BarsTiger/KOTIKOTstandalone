@@ -1,5 +1,43 @@
 import json, os, shutil
 
+def header():
+    print(r'''KOTIKOT, script by BarsTiger                                         |
+                                                                         |
+       _____ _______         ____                ____                    |
+      / ____|__   __|/\     |  _ \              |  _ \                   |
+     | |  __   | |  /  \    | |_) |_   _ _   _  | |_) | __ _ ___  ___    |
+     | | |_ |  | | / /\ \   |  _ <| | | | | | | |  _ < / _` / __|/ _ \   |
+     | |__| |  | |/ ____ \  | |_) | |_| | |_| | | |_) | (_| \__ \  __/   |
+      \_____|  |_/_/    \_\ |____/ \__,_|\__, | |____/ \__,_|___/\___|   |
+                                          __/ |                          |
+                                         |___/                           |
+    ---------------------------------------------------------------------|
+    ''')
+
+class menu:
+    def section(self):
+        print("Select section")
+        print("1 - Data output")
+        print("2 - Database loading and options")
+        print("3 - Add new item")
+        print("4 - Owning options")
+        print("0 - Exit")
+
+    def outputmenu(self):
+        print("What you want to do?")
+        print("1 - Print all database")
+        print("2 - Print all items")
+        print("3 - Print all items by type")
+        print("4 - Print all items by shop")
+        print("5 - Print all items by price below this")
+        print("0 - Back")
+
+    def baseoptions(self):
+        print("What you want to do?")
+        print("1 - Create backup of opened database")
+        print("2 - Open another database")
+        print("3 - Create new database")
+
 def getkey(value, dictionary):
     for key, val in dictionary.items():
          if value == val:
@@ -75,19 +113,6 @@ shops = sorted(shops)
 # print(bytype)
 # print(byshop)
 # print(byprice)
-
-print(r'''KOTIKOT, script by BarsTiger                                         |
-                                                                     |
-   _____ _______         ____                ____                    |
-  / ____|__   __|/\     |  _ \              |  _ \                   |
- | |  __   | |  /  \    | |_) |_   _ _   _  | |_) | __ _ ___  ___    |
- | | |_ |  | | / /\ \   |  _ <| | | | | | | |  _ < / _` / __|/ _ \   |
- | |__| |  | |/ ____ \  | |_) | |_| | |_| | | |_) | (_| \__ \  __/   |
-  \_____|  |_/_/    \_\ |____/ \__,_|\__, | |____/ \__,_|___/\___|   |
-                                      __/ |                          |
-                                     |___/                           |
----------------------------------------------------------------------|
-''')
 
 while True:
     print("What you want to do?")
