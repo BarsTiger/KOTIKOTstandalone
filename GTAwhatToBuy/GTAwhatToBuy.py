@@ -14,9 +14,13 @@ def header():
     ---------------------------------------------------------------------|
     ''')
 
+def cls():
+    print("\n" * 35)
 
 class menu:
     def section(self):
+        cls()
+        header()
         print("Select section")
         print("1 - Data output")
         print("2 - Database loading and options")
