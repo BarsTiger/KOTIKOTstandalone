@@ -1,24 +1,26 @@
 import json, os, shutil
 
 def header():
-    print(r'''KOTIKOT, script by BarsTiger                                         |
-                                                                         |
-       _____ _______         ____                ____                    |
-      / ____|__   __|/\     |  _ \              |  _ \                   |
-     | |  __   | |  /  \    | |_) |_   _ _   _  | |_) | __ _ ___  ___    |
-     | | |_ |  | | / /\ \   |  _ <| | | | | | | |  _ < / _` / __|/ _ \   |
-     | |__| |  | |/ ____ \  | |_) | |_| | |_| | | |_) | (_| \__ \  __/   |
-      \_____|  |_/_/    \_\ |____/ \__,_|\__, | |____/ \__,_|___/\___|   |
-                                          __/ |                          |
-                                         |___/                           |
-    ---------------------------------------------------------------------|
+    print(r'''---------------------------------------------------------------------|
+               KOTIKOT, script by BarsTiger                          |
+                                                                     |
+                                                                     |
+   _____ _______         ____                ____                    |
+  / ____|__   __|/\     |  _ \              |  _ \                   |
+ | |  __   | |  /  \    | |_) |_   _ _   _  | |_) | __ _ ___  ___    |
+ | | |_ |  | | / /\ \   |  _ <| | | | | | | |  _ < / _` / __|/ _ \   |
+ | |__| |  | |/ ____ \  | |_) | |_| | |_| | | |_) | (_| \__ \  __/   |
+  \_____|  |_/_/    \_\ |____/ \__,_|\__, | |____/ \__,_|___/\___|   |
+                                      __/ |                          |
+                                     |___/                           |
+---------------------------------------------------------------------|
     ''')
 
 def cls():
-    print("\n" * 35)
+    print("\n" * 34)
 
 class menu:
-    def section(self):
+    def section(self=0):
         cls()
         header()
         print("Select section")
@@ -28,7 +30,7 @@ class menu:
         print("4 - Owning options")
         print("0 - Exit")
 
-    def outputmenu(self):
+    def outputmenu(self=0):
         print("What you want to do?")
         print("1 - Print all database")
         print("2 - Print all items")
@@ -37,7 +39,7 @@ class menu:
         print("5 - Print all items by price below this")
         print("0 - Back")
 
-    def baseoptions(self):
+    def baseoptions(self=0):
         print("What you want to do?")
         print("1 - Create backup of opened database")
         print("2 - Open another database")
@@ -196,5 +198,8 @@ while True:
         print("---------------------------------------------------------------------")
         input("To exit press Enter...")
         exit()
+
+    elif doing == "yesimbetatester":
+        menu.section()
 
 
