@@ -14,6 +14,7 @@ def header():
     ---------------------------------------------------------------------|
     ''')
 
+
 class menu:
     def section(self):
         print("Select section")
@@ -113,6 +114,8 @@ shops = sorted(shops)
 # print(bytype)
 # print(byshop)
 # print(byprice)
+
+header()
 
 while True:
     print("What you want to do?")
