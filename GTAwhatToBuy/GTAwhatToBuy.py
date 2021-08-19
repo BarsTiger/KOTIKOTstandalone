@@ -19,7 +19,12 @@ logo = [
             "|---------------------------------------------------------------------|"
         ]
 
-def print_center(stdscr, text):
+def glstdscr(stdscr):
+    return stdscr
+
+globalstdscr = curses.wrapper(glstdscr)
+
+def print_center(stdscr=globalstdscr, text=""):
     stdscr.clear()
     h, w = stdscr.getmaxyx()
     x = w//2 - len(text)//2
@@ -38,7 +43,8 @@ def printlogo():
 def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-mainmenu = ['Data output', 'Play', 'Scoreboard', 'Exit']
+def softcls():
+    print("\n" * (os.get_terminal_size().lines * 2))
 
 def print_menu(stdscr, selected_row_idx, menu):
     stdscr.clear()
@@ -54,59 +60,88 @@ def print_menu(stdscr, selected_row_idx, menu):
             stdscr.addstr(y, x, row)
     stdscr.refresh()
 
-def main(stdscr):
-    # turn off cursor blinking
+doing = 0
+menulist = {"main": ['Data output', 'Database loading and options', 'Add new item', 'Owning options', 'Exit'],
+            "output": ['Print all database', 'Print all items', 'Print all items by type', 'Print all items by shop', 'Print all items by price below this', 'Back'],
+            "baseoptions": ['Create backup of opened database', 'Open another database', 'Create new database', 'Back'],
+            "exit": ["Exit", "Back"]}
+
+def exitmenu(stdscr):
     curses.curs_set(0)
-
-    # color scheme for selected row
     curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
-
-    # specify the current selected row
     current_row = 0
 
-    # print the menu
-    print_menu(stdscr, current_row, mainmenu)
+    print_menu(stdscr, current_row, menulist["exit"])
 
     while 1:
         key = stdscr.getch()
 
         if key == curses.KEY_UP and current_row > 0:
             current_row -= 1
-        elif key == curses.KEY_DOWN and current_row < len(mainmenu)-1:
+        elif key == curses.KEY_DOWN and current_row < len(menulist["exit"])-1:
             current_row += 1
+
         elif key == curses.KEY_ENTER or key in [10, 13]:
-            print_center(stdscr, "You selected '{}'".format(mainmenu[current_row]))
-            stdscr.getch()
-            # if user selected last row, exit the program
-            if current_row == len(mainmenu)-1:
+            if current_row == 0:
+                exit()
+            if current_row == 1:
+                mainmenu(stdscr)
                 break
 
-        print_menu(stdscr, current_row, mainmenu)
+        print_menu(stdscr, current_row, menulist["exit"])
 
-# class menu:
-#     def section(self=0):
-#         cls()
-#         print("Select section")
-#         print("1 - Data output")
-#         print("2 - Database loading and options")
-#         print("3 - Add new item")
-#         print("4 - Owning options")
-#         print("0 - Exit")
-#
-#     def outputmenu(self=0):
-#         print("What you want to do?")
-#         print("1 - Print all database")
-#         print("2 - Print all items")
-#         print("3 - Print all items by type")
-#         print("4 - Print all items by shop")
-#         print("5 - Print all items by price below this")
-#         print("0 - Back")
-#
-#     def baseoptions(self=0):
-#         print("What you want to do?")
-#         print("1 - Create backup of opened database")
-#         print("2 - Open another database")
-#         print("3 - Create new database")
+def mainmenu(stdscr):
+    global doing
+    curses.curs_set(0)
+    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
+    current_row = 0
+
+    print_menu(stdscr, current_row, menulist["main"])
+
+    while True:
+        key = stdscr.getch()
+
+        if key == curses.KEY_UP and current_row > 0:
+            current_row -= 1
+        elif key == curses.KEY_DOWN and current_row < len(menulist["main"])-1:
+            current_row += 1
+
+        elif key == curses.KEY_ENTER or key in [10, 13]:
+            if current_row == 0:
+                outputmenu(stdscr)
+                break
+
+            if current_row == len(menulist["main"])-1:
+                exitmenu(stdscr)
+                break
+
+        print_menu(stdscr, current_row, menulist["main"])
+
+def outputmenu(stdscr):
+    global doing
+    curses.curs_set(0)
+    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
+    current_row = 0
+
+    print_menu(stdscr, current_row, menulist["output"])
+
+    while True:
+        key = stdscr.getch()
+
+        if key == curses.KEY_UP and current_row > 0:
+            current_row -= 1
+        elif key == curses.KEY_DOWN and current_row < len(menulist["output"])-1:
+            current_row += 1
+
+        elif key == curses.KEY_ENTER or key in [10, 13]:
+            if current_row == len(menulist["output"])-1:
+                mainmenu(stdscr)
+                break
+            else:
+                doing = current_row + 1
+                break
+
+        print_menu(stdscr, current_row, menulist["output"])
 
 def getkey(value, dictionary):
     for key, val in dictionary.items():
@@ -187,31 +222,22 @@ shops = sorted(shops)
 printlogo()
 
 while True:
-    print("What you want to do?")
-    print("1 - Print all database")
-    print("2 - Print all items")
-    print("3 - Print all items by type")
-    print("4 - Print all items by shop")
-    print("5 - Print all items by price below this")
-    print("6 - Add new item to database")
-    print("7 - Create backup of database")
-    print("8 - Exit")
-    doing = input("Type here: ")
-    print()
+    curses.wrapper(mainmenu)
 
-    if doing == "1":
+    if doing == 1:
         print("Name:  Type   Shop   Price")
         printbase(database)
         print()
         input("To go back to menu press Enter...")
+        softcls()
 
-    elif doing == "2":
+    elif doing == 2:
         for item in buyitems:
             print(item)
         print()
         input("To go back to menu press Enter...")
 
-    elif doing == "3":
+    elif doing == 3:
         print("Types to search in database: ")
         for item in typesofitems:
             print(item)
@@ -221,7 +247,7 @@ while True:
         print()
         input("To go back to menu press Enter...")
 
-    elif doing == "4":
+    elif doing == 4:
         print("Types to search in database: ")
         for item in shops:
             print(item)
@@ -231,14 +257,14 @@ while True:
         print()
         input("To go back to menu press Enter...")
 
-    elif doing == "5":
+    elif doing == 5:
         belowthisprice = checkbelow(input("I will check for items below this price: "), byprice)
         for item in list(belowthisprice):
             print(item + ": " + "{:,}".format(belowthisprice[item]))
         print()
         input("To go back to menu press Enter...")
 
-    elif doing == "6":
+    elif doing == 6:
         print()
         print("Adding new item")
         specif = []
@@ -251,18 +277,13 @@ while True:
         json.dump(database, basewrite, indent=3, ensure_ascii=False)
         basewrite.close()
 
-    elif doing == "7":
+    elif doing == 7:
         shutil.copy("whattobuy.database", "whattobuy.databack")
         if os.path.isfile('whattobuy.databack'):
             print("Backup successful")
         print()
 
-    elif doing == "8":
-        print("---------------------------------------------------------------------")
-        input("To exit press Enter...")
-        exit()
-
     elif doing == "228":
-        curses.wrapper(main)
+        curses.wrapper(mainmenu)
 
 
