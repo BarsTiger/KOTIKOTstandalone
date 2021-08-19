@@ -1,49 +1,112 @@
 import json, os, shutil
+import curses
 
-def header():
-    print(r'''---------------------------------------------------------------------|
-               KOTIKOT, script by BarsTiger                          |
-                                                                     |
-                                                                     |
-   _____ _______         ____                ____                    |
-  / ____|__   __|/\     |  _ \              |  _ \                   |
- | |  __   | |  /  \    | |_) |_   _ _   _  | |_) | __ _ ___  ___    |
- | | |_ |  | | / /\ \   |  _ <| | | | | | | |  _ < / _` / __|/ _ \   |
- | |__| |  | |/ ____ \  | |_) | |_| | |_| | | |_) | (_| \__ \  __/   |
-  \_____|  |_/_/    \_\ |____/ \__,_|\__, | |____/ \__,_|___/\___|   |
-                                      __/ |                          |
-                                     |___/                           |
----------------------------------------------------------------------|
-    ''')
+os.system("title " + "GTA BuyBase")
+
+logo = [
+            "|---------------------------------------------------------------------|",
+            "|               KOTIKOT, script by BarsTiger                          |",
+            "|                                                                     |",
+            "|                                                                     |",
+            "|   _____ _______         ____                ____                    |",
+            "|  / ____|__   __|/\     |  _ \              |  _ \                   |",
+            "| | |  __   | |  /  \    | |_) |_   _ _   _  | |_) | __ _ ___  ___    |",
+            "| | | |_ |  | | / /\ \   |  _ <| | | | | | | |  _ < / _` / __|/ _ \   |",
+            "| | |__| |  | |/ ____ \  | |_) | |_| | |_| | | |_) | (_| \__ \  __/   |",
+            "|  \_____|  |_/_/    \_\ |____/ \__,_|\__, | |____/ \__,_|___/\___|   |",
+            "|                                      __/ |                          |",
+            "|                                     |___/                           |",
+            "|---------------------------------------------------------------------|"
+        ]
+
+def print_center(stdscr, text):
+    stdscr.clear()
+    h, w = stdscr.getmaxyx()
+    x = w//2 - len(text)//2
+    y = h//2
+    stdscr.addstr(y, x, text)
+    stdscr.refresh()
+
+def printlogo():
+    print("\n" * ((os.get_terminal_size().lines // 2 - (len(logo) // 2)) + 1))
+    for line in logo:
+        print(" " * ((os.get_terminal_size().columns//2 - (len(line)//2)) - 1) + line)
+    print("\n" * ((os.get_terminal_size().lines // 2 - (len(logo) // 2)) - 1))
+    input()
+    cls()
 
 def cls():
-    print("\n" * 34)
+    os.system('cls' if os.name == 'nt' else 'clear')
 
-class menu:
-    def section(self=0):
-        cls()
-        header()
-        print("Select section")
-        print("1 - Data output")
-        print("2 - Database loading and options")
-        print("3 - Add new item")
-        print("4 - Owning options")
-        print("0 - Exit")
+mainmenu = ['Data output', 'Play', 'Scoreboard', 'Exit']
 
-    def outputmenu(self=0):
-        print("What you want to do?")
-        print("1 - Print all database")
-        print("2 - Print all items")
-        print("3 - Print all items by type")
-        print("4 - Print all items by shop")
-        print("5 - Print all items by price below this")
-        print("0 - Back")
+def print_menu(stdscr, selected_row_idx, menu):
+    stdscr.clear()
+    h, w = stdscr.getmaxyx()
+    for idx, row in enumerate(menu):
+        x = w//2 - len(row)//2
+        y = h//2 - len(menu)//2 + idx
+        if idx == selected_row_idx:
+            stdscr.attron(curses.color_pair(1))
+            stdscr.addstr(y, x, row)
+            stdscr.attroff(curses.color_pair(1))
+        else:
+            stdscr.addstr(y, x, row)
+    stdscr.refresh()
 
-    def baseoptions(self=0):
-        print("What you want to do?")
-        print("1 - Create backup of opened database")
-        print("2 - Open another database")
-        print("3 - Create new database")
+def main(stdscr):
+    # turn off cursor blinking
+    curses.curs_set(0)
+
+    # color scheme for selected row
+    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
+
+    # specify the current selected row
+    current_row = 0
+
+    # print the menu
+    print_menu(stdscr, current_row, mainmenu)
+
+    while 1:
+        key = stdscr.getch()
+
+        if key == curses.KEY_UP and current_row > 0:
+            current_row -= 1
+        elif key == curses.KEY_DOWN and current_row < len(mainmenu)-1:
+            current_row += 1
+        elif key == curses.KEY_ENTER or key in [10, 13]:
+            print_center(stdscr, "You selected '{}'".format(mainmenu[current_row]))
+            stdscr.getch()
+            # if user selected last row, exit the program
+            if current_row == len(mainmenu)-1:
+                break
+
+        print_menu(stdscr, current_row, mainmenu)
+
+# class menu:
+#     def section(self=0):
+#         cls()
+#         print("Select section")
+#         print("1 - Data output")
+#         print("2 - Database loading and options")
+#         print("3 - Add new item")
+#         print("4 - Owning options")
+#         print("0 - Exit")
+#
+#     def outputmenu(self=0):
+#         print("What you want to do?")
+#         print("1 - Print all database")
+#         print("2 - Print all items")
+#         print("3 - Print all items by type")
+#         print("4 - Print all items by shop")
+#         print("5 - Print all items by price below this")
+#         print("0 - Back")
+#
+#     def baseoptions(self=0):
+#         print("What you want to do?")
+#         print("1 - Create backup of opened database")
+#         print("2 - Open another database")
+#         print("3 - Create new database")
 
 def getkey(value, dictionary):
     for key, val in dictionary.items():
@@ -121,7 +184,7 @@ shops = sorted(shops)
 # print(byshop)
 # print(byprice)
 
-header()
+printlogo()
 
 while True:
     print("What you want to do?")
@@ -200,4 +263,6 @@ while True:
         exit()
 
     elif doing == "228":
-        menu.section()
+        curses.wrapper(main)
+
+
