@@ -199,7 +199,5 @@ while True:
         input("To exit press Enter...")
         exit()
 
-    elif doing == "yesimbetatester":
+    elif doing == "228":
         menu.section()
-
-
