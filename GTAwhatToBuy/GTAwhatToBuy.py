@@ -396,7 +396,7 @@ while True:
         specif.append(input("Type here shop, where item can be bought: "))
         specif.append(int(input("Type here price of item (without spaces or comas): ")))
         database[nameofnewitem] = specif
-        basewrite = open('whattobuy.database', 'w+')
+        basewrite = open(basename, 'w+')
         json.dump(database, basewrite, indent=3, ensure_ascii=False)
         basewrite.close()
 
@@ -433,5 +433,3 @@ while True:
 
     elif doing == "228":
         curses.wrapper(mainmenu)
-
-
