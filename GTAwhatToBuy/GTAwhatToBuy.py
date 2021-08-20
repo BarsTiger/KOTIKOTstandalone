@@ -154,7 +154,7 @@ def outputmenu(stdscr):
                 doing = menulist["output"][current_row]
                 break
 
-        elif key == curses.KEY_BACKSPACE or str(key) in ['KEY_BACKSPACE', '127', '8']:
+        elif key == curses.KEY_BACKSPACE or str(key) in ['KEY_BACKSPACE', '8']:
             mainmenu(stdscr)
             break
 
@@ -184,7 +184,7 @@ def baseoptionsmenu(stdscr):
                 doing = menulist["baseoptions"][current_row]
                 break
 
-        elif key == curses.KEY_BACKSPACE or str(key) in ['KEY_BACKSPACE', '127', '8']:
+        elif key == curses.KEY_BACKSPACE or str(key) in ['KEY_BACKSPACE', '8']:
             mainmenu(stdscr)
             break
 
@@ -214,7 +214,7 @@ def ownmenu(stdscr):
                 doing = menulist["ownoptions"][current_row]
                 break
 
-        elif key == curses.KEY_BACKSPACE or str(key) in ['KEY_BACKSPACE', '127', '8']:
+        elif key == curses.KEY_BACKSPACE or str(key) in ['KEY_BACKSPACE', '8']:
             mainmenu(stdscr)
             break
 
