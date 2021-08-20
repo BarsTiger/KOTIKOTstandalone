@@ -63,7 +63,7 @@ def print_menu(stdscr, selected_row_idx, menu):
 doing = 0
 menulist = {"main": ['Data output', 'Database loading and options', 'Add new item', 'Owning options', 'Exit'],
             "output": ['Print all database', 'Print all items', 'Print all items by type', 'Print all items by shop', 'Print all items by price below this', 'Back'],
-            "baseoptions": ['Create backup of opened database', 'Open another database (in dev)', 'Create new database (in dev)', 'Back'],
+            "baseoptions": ['Create backup of opened database', 'Open another database', 'Create new database', 'Back'],
             "ownoptions": ['Edit own or not (in dev)', 'Show only owned (in dev)', 'Show only unowned (in dev)', 'Show all (in dev)', 'Back'],
             "exit": ["Exit", "Back"]}
 
@@ -242,13 +242,13 @@ def checkbelow(belowthis, dictionary):
 basename = 'default.database'
 backname = str(os.path.splitext(basename)[0]) + ".databack"
 
-if not os.path.isfile('default.database'):
-    basewrite = open('default.database', 'w+')
+if not os.path.isfile(basename):
+    basewrite = open(basename, 'w+')
     empty = {}
     json.dump(empty, basewrite, indent=3)
     basewrite.close()
 
-baseread = open('default.database')
+baseread = open(basename)
 database = json.load(baseread)
 baseread.close()
 
@@ -281,6 +281,48 @@ for key in buyitems:
 shops = set(shops)
 shops = list(shops)
 shops = sorted(shops)
+
+def openbase():
+    global baseread, database, buyitems, typesofitems, shops, bytype, byshop, byprice
+    if not os.path.isfile(basename):
+        basewrite = open(basename, 'w+')
+        empty = {}
+        json.dump(empty, basewrite, indent=3)
+        basewrite.close()
+
+    baseread = open(basename)
+    database = json.load(baseread)
+    baseread.close()
+
+    database = dictsortedkey(database)
+
+    buyitems = list(database)
+    typesofitems = []
+    shops = []
+    bytype = {}
+    byshop = {}
+    byprice = {}
+
+    for item in buyitems:
+        bytype[item] = database[item][0]
+
+    for item in buyitems:
+        byshop[item] = database[item][1]
+
+    for item in buyitems:
+        byprice[item] = database[item][2]
+
+    for key in buyitems:
+        typesofitems.append(bytype[key])
+    typesofitems = set(typesofitems)
+    typesofitems = list(typesofitems)
+    typesofitems = sorted(typesofitems)
+
+    for key in buyitems:
+        shops.append(byshop[key])
+    shops = set(shops)
+    shops = list(shops)
+    shops = sorted(shops)
 
 printlogo()
 
@@ -351,6 +393,20 @@ while True:
         if os.path.isfile(backname):
             print("Backup successful")
         print()
+        input("To go back to menu press Enter...")
+        softcls()
+
+    elif doing == menulist["baseoptions"][1]:
+        alldatabases = []
+        for file in os.listdir(os.getcwd()):
+            if '.database' in file:
+                alldatabases.append(file)
+        print("Which database would you like yo open?")
+        for base in alldatabases:
+            print(base)
+        basename = input("Type here: ")
+        openbase()
+        print("New DB opened")
         input("To go back to menu press Enter...")
         softcls()
 
