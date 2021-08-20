@@ -1,5 +1,5 @@
 import json, os, shutil
-import curses
+import curses, tkinter
 
 os.system("title " + "GTA BuyBase")
 
@@ -239,14 +239,16 @@ def checkbelow(belowthis, dictionary):
             yesbelow[key] = dictionary[key]
     return yesbelow
 
+basename = 'default.database'
+backname = str(os.path.splitext(basename)[0]) + ".databack"
 
-if not os.path.isfile('whattobuy.database'):
-    basewrite = open('whattobuy.database', 'w+')
+if not os.path.isfile('default.database'):
+    basewrite = open('default.database', 'w+')
     empty = {}
     json.dump(empty, basewrite, indent=3)
     basewrite.close()
 
-baseread = open('whattobuy.database')
+baseread = open('default.database')
 database = json.load(baseread)
 baseread.close()
 
@@ -279,11 +281,6 @@ for key in buyitems:
 shops = set(shops)
 shops = list(shops)
 shops = sorted(shops)
-
-# print(buyitems)
-# print(bytype)
-# print(byshop)
-# print(byprice)
 
 printlogo()
 
@@ -349,8 +346,9 @@ while True:
         basewrite.close()
 
     elif doing == menulist["baseoptions"][0]:
-        shutil.copy("whattobuy.database", "whattobuy.databack")
-        if os.path.isfile('whattobuy.databack'):
+        print()
+        shutil.copy(basename, backname)
+        if os.path.isfile(backname):
             print("Backup successful")
         print()
         input("To go back to menu press Enter...")
