@@ -154,6 +154,10 @@ def outputmenu(stdscr):
                 doing = menulist["output"][current_row]
                 break
 
+        elif key == curses.KEY_BACKSPACE or str(key) in ['KEY_BACKSPACE', '127', '8']:
+            mainmenu(stdscr)
+            break
+
         print_menu(stdscr, current_row, menulist["output"])
 
 def baseoptionsmenu(stdscr):
@@ -180,6 +184,10 @@ def baseoptionsmenu(stdscr):
                 doing = menulist["baseoptions"][current_row]
                 break
 
+        elif key == curses.KEY_BACKSPACE or str(key) in ['KEY_BACKSPACE', '127', '8']:
+            mainmenu(stdscr)
+            break
+
         print_menu(stdscr, current_row, menulist["baseoptions"])
 
 def ownmenu(stdscr):
@@ -198,13 +206,17 @@ def ownmenu(stdscr):
         elif key == curses.KEY_DOWN and current_row < len(menulist["ownoptions"])-1:
             current_row += 1
 
-        elif key == curses.KEY_ENTER or key in [10, 13]:
+        elif key == curses.KEY_ENTER:
             if current_row == len(menulist["ownoptions"])-1:
                 mainmenu(stdscr)
                 break
             else:
                 doing = menulist["ownoptions"][current_row]
                 break
+
+        elif key == curses.KEY_BACKSPACE or str(key) in ['KEY_BACKSPACE', '127', '8']:
+            mainmenu(stdscr)
+            break
 
         print_menu(stdscr, current_row, menulist["ownoptions"])
 
@@ -283,7 +295,7 @@ shops = list(shops)
 shops = sorted(shops)
 
 def openbase():
-    global baseread, database, buyitems, typesofitems, shops, bytype, byshop, byprice
+    global baseread, database, buyitems, typesofitems, shops, bytype, byshop, byprice, backname
     if not os.path.isfile(basename):
         basewrite = open(basename, 'w+')
         empty = {}
@@ -323,6 +335,7 @@ def openbase():
     shops = set(shops)
     shops = list(shops)
     shops = sorted(shops)
+    backname = str(os.path.splitext(basename)[0]) + ".databack"
 
 printlogo()
 
@@ -400,13 +413,21 @@ while True:
         alldatabases = []
         for file in os.listdir(os.getcwd()):
             if '.database' in file:
-                alldatabases.append(file)
-        print("Which database would you like yo open?")
+                alldatabases.append(os.path.splitext(file)[0])
+        print("Which database would you like to open?")
         for base in alldatabases:
             print(base)
-        basename = input("Type here: ")
+        basename = input("Type here: ") + ".database"
         openbase()
-        print("New DB opened")
+        print("Other DB opened")
+        input("To go back to menu press Enter...")
+        softcls()
+
+    elif doing == menulist["baseoptions"][2]:
+        print("Creating new DB. Choose name for it")
+        basename = input("Type here: ") + ".database"
+        openbase()
+        print("New DB created")
         input("To go back to menu press Enter...")
         softcls()
 
