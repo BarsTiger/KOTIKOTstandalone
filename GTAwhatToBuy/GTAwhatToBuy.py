@@ -582,6 +582,12 @@ while True:
             print("Ownbase file deleted")
             print()
 
+        elif doing == menulist["ownoptions"][1]:
+            show = "Owned"
+        elif doing == menulist["ownoptions"][2]:
+            show = "Unowned"
+        elif doing == menulist["ownoptions"][3]:
+            show = "All"
 
         input("To go back to menu press Enter...")
         softcls()
