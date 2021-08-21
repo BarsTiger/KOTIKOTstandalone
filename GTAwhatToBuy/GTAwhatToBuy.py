@@ -581,13 +581,14 @@ while True:
             print("All data from ownbase file moved to database file")
             print("Ownbase file deleted")
             print()
+            input("To go back to menu press Enter...")
 
-        elif doing == menulist["ownoptions"][1]:
-            show = "Owned"
-        elif doing == menulist["ownoptions"][2]:
-            show = "Unowned"
-        elif doing == menulist["ownoptions"][3]:
-            show = "All"
+    elif doing == menulist["ownoptions"][1]:
+        show = "Owned"
+    elif doing == menulist["ownoptions"][2]:
+        show = "Unowned"
+    elif doing == menulist["ownoptions"][3]:
+        show = "All"
 
-        input("To go back to menu press Enter...")
+
         softcls()
