@@ -470,8 +470,32 @@ while True:
         softcls()
 
     elif doing == menulist["ownoptions"][0]:
-        print("Which item you would like to change?")
-        whattodonow = input("1 - Print all items\n2 - Search item\nType here: ")
+        print("Select type of editor")
+        typeofedit = input("1 - Edit all items\n2 - Edit one at a time\nType here: ")
+        if typeofedit == "2":
+            print()
+            print("Which item you would like to change?")
+            whattodonow = input("1 - Print all items\n2 - Search item\nType here: ")
+            if whattodonow == "1":
+                for item in buyitems:
+                    print(item)
+                print()
+            elif whattodonow == "2":
+                whichtocontain = input("Start typing name here: ")
+                containthis = []
+                for item in buyitems:
+                    if whichtocontain.lower() in item.lower():
+                        containthis.append(item)
+                for item in containthis:
+                    print(item)
+            itemtoedit = input("Type here name of item: ")
+            print(itemtoedit + " is now " + str(database[itemtoedit][3]))
+            isowneditem = bool(input("Do you own this item? (1 - Yes, 0 - No): ") == "1")
+            database[itemtoedit][3] = isowneditem
+
+            basewrite = open(basename, 'w+')
+            json.dump(database, basewrite, indent=3, ensure_ascii=False)
+            basewrite.close()
 
         input("To go back to menu press Enter...")
         softcls()
