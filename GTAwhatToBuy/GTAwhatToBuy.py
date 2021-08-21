@@ -64,7 +64,7 @@ doing = 0
 menulist = {"main": ['Data output', 'Database loading and options', 'Add new item', 'Owning options', 'Exit'],
             "output": ['Print all database', 'Print all items', 'Print all items by type', 'Print all items by shop', 'Print all items by price below this', 'Back'],
             "baseoptions": ['Create backup of opened database', 'Open another database', 'Create new database', 'Back'],
-            "ownoptions": ['Edit own or not', 'Show only owned', 'Show only unowned', 'Show all', 'Back'],
+            "ownoptions": ['Edit own or not (in dev)', 'Show only owned (in dev)', 'Show only unowned (in dev)', 'Show all (in dev)', 'Back'],
             "exit": ["Exit", "Back"]}
 
 def exitmenu(stdscr):
@@ -252,11 +252,9 @@ def checkbelow(belowthis, dictionary):
             yesbelow[key] = dictionary[key]
     return yesbelow
 
-showown = "All"
-
 basename = 'default.database'
 backname = str(os.path.splitext(basename)[0]) + ".databack"
-ownname = str(os.path.splitext(basename)[0]) + ".ownbase"
+showown = "All"
 
 if not os.path.isfile(basename):
     basewrite = open(basename, 'w+')
@@ -298,16 +296,8 @@ shops = set(shops)
 shops = list(shops)
 shops = sorted(shops)
 
-if not os.path.isfile(ownname):
-    ownwrite = open(ownname, 'w+')
-    empty = {}
-    for item in buyitems:
-        empty[item] = False
-    json.dump(empty, ownwrite, indent=3, ensure_ascii=False)
-    ownwrite.close()
-
 def openbase():
-    global baseread, database, buyitems, typesofitems, shops, bytype, byshop, byprice, backname, ownname
+    global baseread, database, buyitems, typesofitems, shops, bytype, byshop, byprice, backname
     if not os.path.isfile(basename):
         basewrite = open(basename, 'w+')
         empty = {}
@@ -348,15 +338,6 @@ def openbase():
     shops = list(shops)
     shops = sorted(shops)
     backname = str(os.path.splitext(basename)[0]) + ".databack"
-    ownname = str(os.path.splitext(basename)[0]) + ".ownbase"
-
-    if not os.path.isfile(ownname):
-        ownwrite = open(ownname, 'w+')
-        empty = {}
-        for item in buyitems:
-            empty[item] = False
-        json.dump(empty, ownwrite, indent=3, ensure_ascii=False)
-        ownwrite.close()
 
 printlogo()
 
