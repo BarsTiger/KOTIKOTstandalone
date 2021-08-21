@@ -206,7 +206,7 @@ def ownmenu(stdscr):
         elif key == curses.KEY_DOWN and current_row < len(menulist["ownoptions"])-1:
             current_row += 1
 
-        elif key == curses.KEY_ENTER:
+        elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row == len(menulist["ownoptions"])-1:
                 mainmenu(stdscr)
                 break
@@ -469,5 +469,9 @@ while True:
         input("To go back to menu press Enter...")
         softcls()
 
-    elif doing == "228":
-        curses.wrapper(mainmenu)
+    elif doing == menulist["ownoptions"][0]:
+        print("Which item you would like to change?")
+        whattodonow = input("1 - Print all items\n2 - Search item\nType here: ")
+
+        input("To go back to menu press Enter...")
+        softcls()
