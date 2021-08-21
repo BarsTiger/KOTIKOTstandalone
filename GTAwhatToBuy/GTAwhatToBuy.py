@@ -240,10 +240,21 @@ def dictsortedkey(dictionary):
 
 def printbase(dictionary):
     keys = list(dictionary)
-    if showown == "All":
+    if show == "All":
         for key in keys:
             print(key + ":  " + dictionary[key][0] + "   " + dictionary[key][1] + "   " + "{:,}".format(dictionary[key][2]))
             print()
+    elif show == "Owned":
+        for key in keys:
+            if dictionary[key][3] == True:
+                print(key + ":  " + dictionary[key][0] + "   " + dictionary[key][1] + "   " + "{:,}".format(dictionary[key][2]))
+                print()
+    elif show == "Unowned":
+        for key in keys:
+            if dictionary[key][3] == False:
+                print(key + ":  " + dictionary[key][0] + "   " + dictionary[key][1] + "   " + "{:,}".format(
+                    dictionary[key][2]))
+                print()
 
 def checkbelow(belowthis, dictionary):
     yesbelow = {}
@@ -254,7 +265,7 @@ def checkbelow(belowthis, dictionary):
 
 basename = 'default.database'
 backname = str(os.path.splitext(basename)[0]) + ".databack"
-showown = "All"
+show = "All"
 
 if not os.path.isfile(basename):
     basewrite = open(basename, 'w+')
@@ -353,8 +364,17 @@ while True:
         softcls()
 
     elif doing == menulist["output"][1]:
-        for item in buyitems:
-            print(item)
+        if show == "All":
+            for item in buyitems:
+                print(item)
+        elif show == "Owned":
+            for item in buyitems:
+                if database[item][3] == True:
+                    print(item)
+        elif show == "Unowned":
+            for item in buyitems:
+                if database[item][3] == False:
+                    print(item)
         print()
         input("To go back to menu press Enter...")
         softcls()
@@ -364,8 +384,18 @@ while True:
         for item in typesofitems:
             print(item)
         print()
-        for item in getkeys(input("For which type I should check: "), bytype):
-            print(item)
+        if show == "All":
+            for item in getkeys(input("For which type I should check: "), bytype):
+                print(item)
+        elif show == "Owned":
+            for item in getkeys(input("For which type I should check: "), bytype):
+                if database[item][3] == True:
+                    print(item)
+        elif show == "Unowned":
+            for item in getkeys(input("For which type I should check: "), bytype):
+                if database[item][3] == False:
+                    print(item)
+
         print()
         input("To go back to menu press Enter...")
         softcls()
@@ -375,16 +405,34 @@ while True:
         for item in shops:
             print(item)
         print()
-        for item in getkeys(input("For which shop I should check: "), byshop):
-            print(item)
+        if show == "All":
+            for item in getkeys(input("For which type I should check: "), byshop):
+                print(item)
+        elif show == "Owned":
+            for item in getkeys(input("For which type I should check: "), byshop):
+                if database[item][3] == True:
+                    print(item)
+        elif show == "Unowned":
+            for item in getkeys(input("For which type I should check: "), byshop):
+                if database[item][3] == False:
+                    print(item)
         print()
         input("To go back to menu press Enter...")
         softcls()
 
     elif doing == menulist["output"][4]:
         belowthisprice = checkbelow(input("I will check for items below this price: "), byprice)
-        for item in list(belowthisprice):
-            print(item + ": " + "{:,}".format(belowthisprice[item]))
+        if show == "All":
+            for item in list(belowthisprice):
+                print(item + ": " + "{:,}".format(belowthisprice[item]))
+        elif show == "Owned":
+            for item in list(belowthisprice):
+                if database[item][3] == True:
+                    print(item + ": " + "{:,}".format(belowthisprice[item]))
+        elif show == "Unowned":
+            for item in list(belowthisprice):
+                if database[item][3] == False:
+                    print(item + ": " + "{:,}".format(belowthisprice[item]))
         print()
         input("To go back to menu press Enter...")
         softcls()
