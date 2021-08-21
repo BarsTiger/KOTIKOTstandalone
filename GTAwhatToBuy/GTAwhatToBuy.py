@@ -451,6 +451,7 @@ while True:
         basewrite = open(basename, 'w+')
         json.dump(database, basewrite, indent=3, ensure_ascii=False)
         basewrite.close()
+        softcls()
 
     elif doing == menulist["baseoptions"][0]:
         print()
@@ -582,6 +583,7 @@ while True:
             print("Ownbase file deleted")
             print()
             input("To go back to menu press Enter...")
+            softcls()
 
     elif doing == menulist["ownoptions"][1]:
         show = "Owned"
@@ -589,6 +591,3 @@ while True:
         show = "Unowned"
     elif doing == menulist["ownoptions"][3]:
         show = "All"
-
-
-        softcls()
