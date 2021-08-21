@@ -64,7 +64,7 @@ doing = 0
 menulist = {"main": ['Data output', 'Database loading and options', 'Add new item', 'Owning options', 'Exit'],
             "output": ['Print all database', 'Print all items', 'Print all items by type', 'Print all items by shop', 'Print all items by price below this', 'Back'],
             "baseoptions": ['Create backup of opened database', 'Open another database', 'Create new database', 'Validate database', 'Back'],
-            "ownoptions": ['Edit own or not (in dev)', 'Show only owned (in dev)', 'Show only unowned (in dev)', 'Show all (in dev)', 'Back'],
+            "ownoptions": ['Edit own or not', 'Show only owned', 'Show only unowned', 'Show all', 'Back'],
             "exit": ["Exit", "Back"]}
 
 def exitmenu(stdscr):
