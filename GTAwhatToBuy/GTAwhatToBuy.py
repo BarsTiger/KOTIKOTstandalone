@@ -497,5 +497,43 @@ while True:
             json.dump(database, basewrite, indent=3, ensure_ascii=False)
             basewrite.close()
 
+        elif typeofedit == "1":
+            ownbasename = str(os.path.splitext(basename)[0]) + ".ownbase"
+            print("Will be created file named " + ownbasename)
+            owningtempbase = {}
+            for item in buyitems:
+                owningtempbase[item] = database[item][3]
+
+            with open(ownbasename, 'w+') as ownwrite:
+                json.dump(owningtempbase, ownwrite, indent=3, ensure_ascii=False)
+
+            print()
+            print("File is created. Open it with any text editor")
+            print("If you own item, type true near its name. If not - false")
+            print("It shold be like this: ")
+            print('"Avenger": true,')
+            print("After each line shold be a ','")
+            print()
+
+            input("When you are ready, press Enter")
+            input("Press Enter to load data from ownbase file")
+
+            with open(ownbasename) as ownread:
+                owningtempbase = json.load(ownread)
+
+            for item in buyitems:
+                database[item][3] = owningtempbase[item]
+
+            basewrite = open(basename, 'w+')
+            json.dump(database, basewrite, indent=3, ensure_ascii=False)
+            basewrite.close()
+
+            os.remove(ownbasename)
+
+            print("All data from ownbase file moved to database file")
+            print("Ownbase file deleted")
+            print()
+
+
         input("To go back to menu press Enter...")
         softcls()
