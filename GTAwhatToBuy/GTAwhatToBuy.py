@@ -1,5 +1,5 @@
 import json, os, shutil
-import curses, tkinter
+import curses
 
 os.system("title " + "GTA BuyBase")
 
@@ -64,7 +64,7 @@ doing = 0
 menulist = {"main": ['Data output', 'Database loading and options', 'Add new item', 'Owning options', 'Exit'],
             "output": ['Print all database', 'Print all items', 'Print all items by type', 'Print all items by shop', 'Print all items by price below this', 'Back'],
             "baseoptions": ['Create backup of opened database', 'Open another database', 'Create new database', 'Back'],
-            "ownoptions": ['Edit own or not (in dev)', 'Show only owned (in dev)', 'Show only unowned (in dev)', 'Show all (in dev)', 'Back'],
+            "ownoptions": ['Edit own or not', 'Show only owned', 'Show only unowned', 'Show all', 'Back'],
             "exit": ["Exit", "Back"]}
 
 def exitmenu(stdscr):
@@ -240,9 +240,10 @@ def dictsortedkey(dictionary):
 
 def printbase(dictionary):
     keys = list(dictionary)
-    for key in keys:
-        print(key + ":  " + dictionary[key][0] + "   " + dictionary[key][1] + "   " + "{:,}".format(dictionary[key][2]))
-        print()
+    if showown == "All":
+        for key in keys:
+            print(key + ":  " + dictionary[key][0] + "   " + dictionary[key][1] + "   " + "{:,}".format(dictionary[key][2]))
+            print()
 
 def checkbelow(belowthis, dictionary):
     yesbelow = {}
@@ -253,6 +254,7 @@ def checkbelow(belowthis, dictionary):
 
 basename = 'default.database'
 backname = str(os.path.splitext(basename)[0]) + ".databack"
+showown = "All"
 
 if not os.path.isfile(basename):
     basewrite = open(basename, 'w+')
