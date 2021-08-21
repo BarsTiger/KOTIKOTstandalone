@@ -63,7 +63,7 @@ def print_menu(stdscr, selected_row_idx, menu):
 doing = 0
 menulist = {"main": ['Data output', 'Database loading and options', 'Add new item', 'Owning options', 'Exit'],
             "output": ['Print all database', 'Print all items', 'Print all items by type', 'Print all items by shop', 'Print all items by price below this', 'Back'],
-            "baseoptions": ['Create backup of opened database', 'Open another database', 'Create new database', 'Back'],
+            "baseoptions": ['Create backup of opened database', 'Open another database', 'Create new database', 'Validate database', 'Back'],
             "ownoptions": ['Edit own or not (in dev)', 'Show only owned (in dev)', 'Show only unowned (in dev)', 'Show all (in dev)', 'Back'],
             "exit": ["Exit", "Back"]}
 
@@ -397,6 +397,8 @@ while True:
         specif.append(input("Type here type of item: "))
         specif.append(input("Type here shop, where item can be bought: "))
         specif.append(int(input("Type here price of item (without spaces or comas): ")))
+        isowneditem = bool(input("Do you own this item? (1 - Yes, 0 - No): ") == "1")
+        specif.append(isowneditem)
         database[nameofnewitem] = specif
         basewrite = open(basename, 'w+')
         json.dump(database, basewrite, indent=3, ensure_ascii=False)
@@ -430,6 +432,40 @@ while True:
         basename = input("Type here: ") + ".database"
         openbase()
         print("New DB created")
+        input("To go back to menu press Enter...")
+        softcls()
+
+    elif doing == menulist["baseoptions"][3]:
+        print("Checking file valid")
+        try:
+            openbase()
+            print("File is valid")
+        except:
+            print("File is !INvalid!")
+            print("Try to check file by yourself or create new DB")
+
+        print()
+        print("Checking if all owning options are valid")
+
+        for item in buyitems:
+            try:
+                if database[item][3] == True:
+                    pass
+                elif database[item][3] == False:
+                    pass
+                else:
+                    database[item][3] = False
+            except:
+                databasethisitem = database[item]
+                databasethisitem.append(False)
+                database[item] = databasethisitem
+
+        basewrite = open(basename, 'w+')
+        json.dump(database, basewrite, indent=3, ensure_ascii=False)
+        basewrite.close()
+
+        print("Owning options were checked and validated if needed")
+
         input("To go back to menu press Enter...")
         softcls()
 
