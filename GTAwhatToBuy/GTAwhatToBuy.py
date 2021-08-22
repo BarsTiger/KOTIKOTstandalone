@@ -1,5 +1,6 @@
-import json, os, shutil
+import json, os, shutil, subprocess
 import curses
+import sys
 
 os.system("title " + "GTA BuyBase")
 
@@ -557,11 +558,17 @@ while True:
                 json.dump(owningtempbase, ownwrite, indent=3, ensure_ascii=False)
 
             print()
-            print("File is created. Open it with any text editor")
+            print("File is created. Open it with any text editor (notepad will be opened automatically on Windows)")
             print("If you own item, type true near its name. If not - false")
             print("It shold be like this: ")
             print('"Avenger": true,')
             print("After each line shold be a ','")
+            print()
+            if sys.platform == "win32":
+                input("After you press Enter, notepad app will be opened")
+                command = 'cmd /c "notepad.exe {}"'.format(ownbasename)
+                os.system(command)
+
             print()
 
             input("When you are ready, press Enter")
