@@ -105,8 +105,12 @@ def mainmenu(stdscr):
 
         if key == curses.KEY_UP and current_row > 0:
             current_row -= 1
+        elif key == curses.KEY_UP and current_row == 0:
+            current_row = len(menulist["main"])-1
         elif key == curses.KEY_DOWN and current_row < len(menulist["main"])-1:
             current_row += 1
+        elif key == curses.KEY_DOWN and current_row == len(menulist["main"]) - 1:
+            current_row = 0
 
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row == 0:
@@ -144,8 +148,12 @@ def outputmenu(stdscr):
 
         if key == curses.KEY_UP and current_row > 0:
             current_row -= 1
+        elif key == curses.KEY_UP and current_row == 0:
+            current_row = len(menulist["output"])-1
         elif key == curses.KEY_DOWN and current_row < len(menulist["output"])-1:
             current_row += 1
+        elif key == curses.KEY_DOWN and current_row == len(menulist["output"]) - 1:
+            current_row = 0
 
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row == len(menulist["output"])-1:
@@ -174,8 +182,12 @@ def baseoptionsmenu(stdscr):
 
         if key == curses.KEY_UP and current_row > 0:
             current_row -= 1
+        elif key == curses.KEY_UP and current_row == 0:
+            current_row = len(menulist["baseoptions"])-1
         elif key == curses.KEY_DOWN and current_row < len(menulist["baseoptions"])-1:
             current_row += 1
+        elif key == curses.KEY_DOWN and current_row == len(menulist["baseoptions"]) - 1:
+            current_row = 0
 
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row == len(menulist["baseoptions"])-1:
@@ -204,8 +216,12 @@ def ownmenu(stdscr):
 
         if key == curses.KEY_UP and current_row > 0:
             current_row -= 1
+        elif key == curses.KEY_UP and current_row == 0:
+            current_row = len(menulist["ownoptions"])-1
         elif key == curses.KEY_DOWN and current_row < len(menulist["ownoptions"])-1:
             current_row += 1
+        elif key == curses.KEY_DOWN and current_row == len(menulist["ownoptions"]) - 1:
+            current_row = 0
 
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row == len(menulist["ownoptions"])-1:
