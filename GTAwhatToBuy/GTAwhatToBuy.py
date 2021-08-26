@@ -1,5 +1,9 @@
-import json, os, shutil, subprocess
-import curses
+import json, os, shutil, subprocess, sys
+try:
+    import curses
+except:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", 'windows-curses'])
+    import curses
 import sys
 
 os.system("title " + "GTA BuyBase")
