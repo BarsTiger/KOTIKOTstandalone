@@ -233,6 +233,60 @@ class Ui_VideoWindow(object):
         self.label.setText(_translate("MainWindow", "KOTIKOT, script by BarsTiger"))
         self.label_2.setText(_translate("MainWindow", "Its joke ui guys ;)"))
 
+class Ui_PictureWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(1193, 538)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.quailty = QtWidgets.QSlider(self.centralwidget)
+        self.quailty.setGeometry(QtCore.QRect(0, 340, 1191, 131))
+        self.quailty.setOrientation(QtCore.Qt.Horizontal)
+        self.quailty.setObjectName("quailty")
+        self.opisanie = QtWidgets.QTextBrowser(self.centralwidget)
+        self.opisanie.setGeometry(QtCore.QRect(10, 0, 1171, 81))
+        self.opisanie.setObjectName("opisanie")
+        self.pathToPict = QtWidgets.QTextBrowser(self.centralwidget)
+        self.pathToPict.setGeometry(QtCore.QRect(10, 100, 1171, 21))
+        self.pathToPict.setReadOnly(False)
+        self.pathToPict.setObjectName("pathToPict")
+        self.openPict = QtWidgets.QPushButton(self.centralwidget)
+        self.openPict.setGeometry(QtCore.QRect(10, 120, 1171, 221))
+        self.openPict.setObjectName("openPict")
+        self.shakalize = QtWidgets.QPushButton(self.centralwidget)
+        self.shakalize.setGeometry(QtCore.QRect(0, 470, 1191, 23))
+        self.shakalize.setObjectName("shakalize")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1193, 21))
+        self.menubar.setObjectName("menubar")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.opisanie.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:48pt;\">Shakalizator</span></p>\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">media files quality lowering program based on python, ffmpeg, pillow libs and PyQT5 UI</span></p>\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:24pt;\">Shakalize picture menu</span></p></body></html>"))
+        self.pathToPict.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+        self.pathToPict.setPlaceholderText(_translate("MainWindow", "Path/To/picture.jpg"))
+        self.openPict.setText(_translate("MainWindow", "Open picture"))
+        self.shakalize.setText(_translate("MainWindow", "Shakalize!"))
+
 def compress_video(video_full_path, output_file_name):
     # Target audio bitrate, in bps
     # Target video bitrate, in bps.
@@ -285,6 +339,11 @@ MainWindow.show()
 # uivideo = Ui_VideoWindow()
 # uivideo.setupUi(VideoWindow)
 # VideoWindow.show()
+
+# PictureWindow = QtWidgets.QMainWindow()
+# uipict = Ui_PictureWindow()
+# uipict.setupUi(PictureWindow)
+# PictureWindow.show()
 
 sys.exit(app.exec_())
 
