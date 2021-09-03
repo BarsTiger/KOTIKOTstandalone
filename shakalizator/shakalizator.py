@@ -318,13 +318,13 @@ def bassboost(video_full_path, output_file_name):
                      'af': 'bass=g={0}:f=110:w=0.6'.format(10)}
                   ).overwrite_output().run()
 
-videoname = "nominalo"
-imagename = 'dababy'
-im1 = Image.open(imagename + ".jpg")
-IMAGE_10 = imagename + "_shakalized.jpg"
-im1.save(IMAGE_10, "JPEG", quality=0)
+def shakalimg():
+    imagename = 'dababy.jpg'
+    image = Image.open(imagename)
+    saveas = str(os.path.splitext(imagename)[0]) + "_shakalized.jpg"
+    image.save(saveas, "JPEG", quality=0)
 
-
+# videoname = "nominalo"
 # compress_video(videoname + '.mp4', 'output.mp4')
 # bassboost(videoname + '.mp4', 'outputbass.mp4')
 
@@ -335,15 +335,23 @@ uimain = Ui_MainWindow()
 uimain.setupUi(MainWindow)
 MainWindow.show()
 
-# VideoWindow = QtWidgets.QMainWindow()
-# uivideo = Ui_VideoWindow()
-# uivideo.setupUi(VideoWindow)
-# VideoWindow.show()
+VideoWindow = QtWidgets.QMainWindow()
+uivideo = Ui_VideoWindow()
+PictureWindow = QtWidgets.QMainWindow()
+uipict = Ui_PictureWindow()
 
-# PictureWindow = QtWidgets.QMainWindow()
-# uipict = Ui_PictureWindow()
-# uipict.setupUi(PictureWindow)
-# PictureWindow.show()
+def launchvidmenu():
+    uivideo.setupUi(VideoWindow)
+    VideoWindow.show()
+
+def launchpicmenu():
+    uipict.setupUi(PictureWindow)
+    PictureWindow.show()
+
+uimain.vidbutton.clicked.connect(launchvidmenu)
+uimain.imgbutton.clicked.connect(launchpicmenu)
+
+
+
 
 sys.exit(app.exec_())
-
