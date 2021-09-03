@@ -118,7 +118,7 @@ class Ui_VideoWindow(object):
         self.backgroung.setGeometry(QtCore.QRect(0, 0, 791, 571))
         self.backgroung.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         self.backgroung.setText("")
-        self.backgroung.setPixmap(QtGui.QPixmap("D:\\RAZNOE\\prgrming\\PyQtUIs\\../../!программирование/KOTIKOTstandalone/shakalizator/resources/videoshakal_bg.jpg"))
+        self.backgroung.setPixmap(QtGui.QPixmap("resources/videoshakal_bg.jpg"))
         self.backgroung.setObjectName("backgroung")
         self.bassboostTsiframi = QtWidgets.QSpinBox(self.centralwidget)
         self.bassboostTsiframi.setGeometry(QtCore.QRect(340, 240, 42, 22))
