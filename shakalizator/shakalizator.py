@@ -160,11 +160,13 @@ class Ui_VideoWindow(object):
         self.label.setObjectName("label")
         self.dial = QtWidgets.QDial(self.centralwidget)
         self.dial.setGeometry(QtCore.QRect(30, 490, 31, 41))
+        self.dial.setValue(75)
         self.dial.setObjectName("dial")
         self.horizontalScrollBar = QtWidgets.QScrollBar(self.centralwidget)
         self.horizontalScrollBar.setGeometry(QtCore.QRect(90, 520, 160, 16))
         self.horizontalScrollBar.setOrientation(QtCore.Qt.Horizontal)
         self.horizontalScrollBar.setObjectName("horizontalScrollBar")
+        self.horizontalScrollBar.setValue(66)
         self.verticalScrollBar = QtWidgets.QScrollBar(self.centralwidget)
         self.verticalScrollBar.setGeometry(QtCore.QRect(760, 220, 16, 160))
         self.verticalScrollBar.setOrientation(QtCore.Qt.Vertical)
@@ -173,18 +175,22 @@ class Ui_VideoWindow(object):
         self.horizontalSlider.setGeometry(QtCore.QRect(50, 60, 160, 22))
         self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
         self.horizontalSlider.setObjectName("horizontalSlider")
+        self.horizontalSlider.setValue(55)
         self.verticalSlider = QtWidgets.QSlider(self.centralwidget)
         self.verticalSlider.setGeometry(QtCore.QRect(20, 90, 22, 160))
         self.verticalSlider.setOrientation(QtCore.Qt.Vertical)
         self.verticalSlider.setObjectName("verticalSlider")
+        self.verticalSlider.setValue(33)
         self.verticalSlider_2 = QtWidgets.QSlider(self.centralwidget)
         self.verticalSlider_2.setGeometry(QtCore.QRect(60, 100, 22, 160))
         self.verticalSlider_2.setOrientation(QtCore.Qt.Vertical)
         self.verticalSlider_2.setObjectName("verticalSlider_2")
+        self.verticalSlider_2.setValue(45)
         self.horizontalSlider_2 = QtWidgets.QSlider(self.centralwidget)
         self.horizontalSlider_2.setGeometry(QtCore.QRect(440, 500, 160, 22))
         self.horizontalSlider_2.setOrientation(QtCore.Qt.Horizontal)
         self.horizontalSlider_2.setObjectName("horizontalSlider_2")
+        self.horizontalSlider_2.setValue(88)
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(290, 570, 81, 16))
         self.label_2.setObjectName("label_2")
@@ -270,6 +276,9 @@ class Ui_PictureWindow(object):
         self.quailty.setGeometry(QtCore.QRect(0, 340, 1191, 131))
         self.quailty.setOrientation(QtCore.Qt.Horizontal)
         self.quailty.setObjectName("quailty")
+        self.quailty.setMaximum(100)
+        self.quailty.setMinimum(1)
+        self.quailty.setValue(100)
         self.opisanie = QtWidgets.QTextBrowser(self.centralwidget)
         self.opisanie.setGeometry(QtCore.QRect(10, 0, 1171, 81))
         self.opisanie.setObjectName("opisanie")
@@ -314,6 +323,14 @@ class Ui_PictureWindow(object):
         self.openPict.setText(_translate("MainWindow", "Open picture"))
         self.shakalize.setText(_translate("MainWindow", "Shakalize!"))
 
+    def openFile(self, MainWindow):
+        self.pathToPict.setText(str(QtWidgets.QFileDialog.getOpenFileName(self.centralwidget, 'Open Picture File')[0]))
+
+    def launchImgShakalizer(self):
+        imgname = self.pathToPict.toPlainText()
+        imgquality = self.quailty.value()
+        shakal_img(imgname, imgquality)
+
 def shakal_video(video_full_path, output_file_name, audio_bitrate, video_bitrate, bass):
     # audio_bitrate min 20, shakal 30, max 300
     # video_bitrate min 100, shakal 150, max 1500
@@ -331,15 +348,13 @@ def shakal_video(video_full_path, output_file_name, audio_bitrate, video_bitrate
                      'af': 'bass=g={0}:f=110:w=0.6'.format(bass)}
                   ).overwrite_output().run()
 
+    print("Finished shakalizing!")
+
 def shakal_img(imagename, img_quality):
     image = Image.open(imagename)
     saveas = str(os.path.splitext(imagename)[0]) + "_shakalized.jpg"
     image.save(saveas, "JPEG", quality=img_quality)
-
-# videoname = "nominalo"
-# shakal_video(videoname + '.mp4', 'output.mp4', 30, 200, 10)
-
-# shakal_img("dababy.jpg", 0)
+    print("Shakalized to quality {0}!".format(img_quality))
 
 app = QtWidgets.QApplication(sys.argv)
 
@@ -371,5 +386,7 @@ uivideo.vidqual.valueChanged.connect(uivideo.vidqualSyncFromSlider)
 uivideo.soundqual.valueChanged.connect(uivideo.soundqualSyncFromSlider)
 uivideo.bassboostlevel.valueChanged.connect(uivideo.bassSyncFromDial)
 
+uipict.openPict.clicked.connect(uipict.openFile)
+uipict.shakalize.clicked.connect(uipict.launchImgShakalizer)
 
 sys.exit(app.exec_())
