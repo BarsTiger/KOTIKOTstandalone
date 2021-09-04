@@ -100,6 +100,7 @@ class Ui_VideoWindow(object):
         self.soundqual.setOrientation(QtCore.Qt.Vertical)
         self.soundqual.setObjectName("soundqual")
         self.gridLayout.addWidget(self.soundqual, 0, 1, 1, 1)
+        self.soundqual.setValue(100)
         self.vidqual = QtWidgets.QSlider(self.gridLayoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -109,6 +110,7 @@ class Ui_VideoWindow(object):
         self.vidqual.setMaximumSize(QtCore.QSize(16777215, 70))
         self.vidqual.setOrientation(QtCore.Qt.Horizontal)
         self.vidqual.setObjectName("vidqual")
+        self.vidqual.setValue(100)
         self.gridLayout.addWidget(self.vidqual, 1, 0, 1, 1)
         self.bassboostlevel = QtWidgets.QDial(self.gridLayoutWidget)
         self.bassboostlevel.setObjectName("bassboostlevel")
@@ -123,17 +125,22 @@ class Ui_VideoWindow(object):
         self.bassboostTsiframi = QtWidgets.QSpinBox(self.centralwidget)
         self.bassboostTsiframi.setGeometry(QtCore.QRect(340, 240, 42, 22))
         self.bassboostTsiframi.setObjectName("bassboostTsiframi")
+        self.bassboostTsiframi.setMaximum(10)
         self.bassboostNadpis = QtWidgets.QLabel(self.centralwidget)
         self.bassboostNadpis.setGeometry(QtCore.QRect(340, 260, 61, 16))
         self.bassboostNadpis.setObjectName("bassboostNadpis")
         self.vidQualTsiframi = QtWidgets.QSpinBox(self.centralwidget)
         self.vidQualTsiframi.setGeometry(QtCore.QRect(340, 440, 42, 22))
+        self.vidQualTsiframi.setMaximum(1500)
+        self.vidQualTsiframi.setValue(1500)
         self.vidQualTsiframi.setObjectName("vidQualTsiframi")
         self.VideoQualNadpis = QtWidgets.QTextBrowser(self.centralwidget)
         self.VideoQualNadpis.setGeometry(QtCore.QRect(330, 470, 71, 31))
         self.VideoQualNadpis.setObjectName("VideoQualNadpis")
         self.soundQualTsiframi = QtWidgets.QSpinBox(self.centralwidget)
         self.soundQualTsiframi.setGeometry(QtCore.QRect(630, 240, 42, 22))
+        self.soundQualTsiframi.setMaximum(300)
+        self.soundQualTsiframi.setValue(300)
         self.soundQualTsiframi.setObjectName("soundQualTsiframi")
         self.SoundQualNadpis = QtWidgets.QTextBrowser(self.centralwidget)
         self.SoundQualNadpis.setGeometry(QtCore.QRect(620, 270, 71, 41))
@@ -233,6 +240,26 @@ class Ui_VideoWindow(object):
         self.label.setText(_translate("MainWindow", "KOTIKOT, script by BarsTiger"))
         self.label_2.setText(_translate("MainWindow", "Its joke ui guys ;)"))
 
+    def openFile(self, MainWindow):
+        self.pathToVideo.setText(str(QtWidgets.QFileDialog.getOpenFileName(self.centralwidget, 'Open Media File')[0]))
+
+    def launchVideoShakalizer(self):
+        vidquality = self.vidQualTsiframi.value()
+        soundquality = self.soundQualTsiframi.value()
+        bassboostlvl = self.bassboostTsiframi.value()
+        pathToVid = self.pathToVideo.toPlainText()
+        pathToOutput = os.path.split(str(pathToVid))[0] + "/" + os.path.splitext(os.path.basename(pathToVid))[0] + "_shakalized.mp4"
+        shakal_video(pathToVid, pathToOutput, soundquality, vidquality, bassboostlvl)
+
+    def vidqualSyncFromSlider(self):
+        self.vidQualTsiframi.setValue(self.vidqual.value() * 15 + 100)
+
+    def soundqualSyncFromSlider(self):
+        self.soundQualTsiframi.setValue(self.soundqual.value() * 3 + 30)
+
+    def bassSyncFromDial(self):
+        self.bassboostTsiframi.setValue(int(self.bassboostlevel.value()/10) + 1)
+
 class Ui_PictureWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -287,46 +314,32 @@ class Ui_PictureWindow(object):
         self.openPict.setText(_translate("MainWindow", "Open picture"))
         self.shakalize.setText(_translate("MainWindow", "Shakalize!"))
 
-def compress_video(video_full_path, output_file_name):
-    # Target audio bitrate, in bps
-    # Target video bitrate, in bps.
-    # audio_bitrate min 20000, shakal 30000
-    # video_bitrate min 100000, shakal 150000
-    audio_bitrate = 20000
-    video_bitrate = 150000
+def shakal_video(video_full_path, output_file_name, audio_bitrate, video_bitrate, bass):
+    # audio_bitrate min 20, shakal 30, max 300
+    # video_bitrate min 100, shakal 150, max 1500
+
+    audio_bitrate = audio_bitrate * 1000
+    video_bitrate = video_bitrate * 1000
 
     i = ffmpeg.input(video_full_path)
-    ffmpeg.output(i, os.devnull,
-                  **{'c:v': 'libx264', 'b:v': video_bitrate, 'pass': 1, 'f': 'mp4'}
-                  ).overwrite_output().run()
-    ffmpeg.output(i, output_file_name,
-                  **{'c:v': 'libx264', 'b:v': video_bitrate, 'pass': 2, 'c:a': 'aac', 'b:a': audio_bitrate}
-                  ).overwrite_output().run()
-
-def bassboost(video_full_path, output_file_name):
-    audio_bitrate = 200000
-    video_bitrate = 500000
-
-    i = ffmpeg.input(video_full_path)
-
     ffmpeg.output(i, os.devnull,
                   **{'c:v': 'libx264', 'b:v': video_bitrate, 'pass': 1, 'f': 'mp4',
-                     'af': 'bass=g={0}:f=110:w=0.6'.format(10)}
+                     'af': 'bass=g={0}:f=110:w=0.6'.format(bass)}
                   ).overwrite_output().run()
     ffmpeg.output(i, output_file_name,
                   **{'c:v': 'libx264', 'b:v': video_bitrate, 'pass': 2, 'c:a': 'aac', 'b:a': audio_bitrate,
-                     'af': 'bass=g={0}:f=110:w=0.6'.format(10)}
+                     'af': 'bass=g={0}:f=110:w=0.6'.format(bass)}
                   ).overwrite_output().run()
 
-def shakalimg():
-    imagename = 'dababy.jpg'
+def shakal_img(imagename, img_quality):
     image = Image.open(imagename)
     saveas = str(os.path.splitext(imagename)[0]) + "_shakalized.jpg"
-    image.save(saveas, "JPEG", quality=0)
+    image.save(saveas, "JPEG", quality=img_quality)
 
 # videoname = "nominalo"
-# compress_video(videoname + '.mp4', 'output.mp4')
-# bassboost(videoname + '.mp4', 'outputbass.mp4')
+# shakal_video(videoname + '.mp4', 'output.mp4', 30, 200, 10)
+
+# shakal_img("dababy.jpg", 0)
 
 app = QtWidgets.QApplication(sys.argv)
 
@@ -337,21 +350,26 @@ MainWindow.show()
 
 VideoWindow = QtWidgets.QMainWindow()
 uivideo = Ui_VideoWindow()
+uivideo.setupUi(VideoWindow)
 PictureWindow = QtWidgets.QMainWindow()
 uipict = Ui_PictureWindow()
+uipict.setupUi(PictureWindow)
 
 def launchvidmenu():
-    uivideo.setupUi(VideoWindow)
     VideoWindow.show()
 
 def launchpicmenu():
-    uipict.setupUi(PictureWindow)
     PictureWindow.show()
 
 uimain.vidbutton.clicked.connect(launchvidmenu)
 uimain.imgbutton.clicked.connect(launchpicmenu)
 
+uivideo.openButton.clicked.connect(uivideo.openFile)
+uivideo.pushButton.clicked.connect(uivideo.launchVideoShakalizer)
 
+uivideo.vidqual.valueChanged.connect(uivideo.vidqualSyncFromSlider)
+uivideo.soundqual.valueChanged.connect(uivideo.soundqualSyncFromSlider)
+uivideo.bassboostlevel.valueChanged.connect(uivideo.bassSyncFromDial)
 
 
 sys.exit(app.exec_())
