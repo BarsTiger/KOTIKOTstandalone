@@ -1,4 +1,6 @@
-import subprocess, sys, os, shutil
+import subprocess
+import sys
+import os
 
 try:
     import ffmpeg
@@ -17,6 +19,7 @@ try:
 except:
     subprocess.check_call([sys.executable, "-m", "pip", "install", 'PyQt5'])
     from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -74,6 +77,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Shakalizator"))
         self.imgbutton.setText(_translate("MainWindow", "Shakalize image"))
         self.vidbutton.setText(_translate("MainWindow", "Shakalize video"))
+
 
 class Ui_VideoWindow(object):
     def setupUi(self, MainWindow):
@@ -230,16 +234,18 @@ class Ui_VideoWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Video Shakalizator"))
         self.bassboostNadpis.setText(_translate("MainWindow", "Bassboost"))
-        self.VideoQualNadpis.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Video quality</p></body></html>"))
-        self.SoundQualNadpis.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Sound quality</p></body></html>"))
+        self.VideoQualNadpis.setHtml(_translate("MainWindow",
+                                                "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                                "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                                "p, li { white-space: pre-wrap; }\n"
+                                                "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+                                                "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Video quality</p></body></html>"))
+        self.SoundQualNadpis.setHtml(_translate("MainWindow",
+                                                "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                                "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                                "p, li { white-space: pre-wrap; }\n"
+                                                "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+                                                "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Sound quality</p></body></html>"))
         self.pathToVideo.setPlaceholderText(_translate("MainWindow", "Path/To/Original/video.mp4"))
         self.openButton.setText(_translate("MainWindow", "Open video or sound file"))
         self.pushButton.setText(_translate("MainWindow", "SHAKALIZE!"))
@@ -254,7 +260,8 @@ class Ui_VideoWindow(object):
         soundquality = self.soundQualTsiframi.value()
         bassboostlvl = self.bassboostTsiframi.value()
         pathToVid = self.pathToVideo.toPlainText()
-        pathToOutput = os.path.split(str(pathToVid))[0] + "/" + os.path.splitext(os.path.basename(pathToVid))[0] + "_shakalized.mp4"
+        pathToOutput = os.path.split(str(pathToVid))[0] + "/" + os.path.splitext(os.path.basename(pathToVid))[
+            0] + "_shakalized.mp4"
         shakal_video(pathToVid, pathToOutput, soundquality, vidquality, bassboostlvl)
 
     def vidqualSyncFromSlider(self):
@@ -264,7 +271,8 @@ class Ui_VideoWindow(object):
         self.soundQualTsiframi.setValue(self.soundqual.value() * 3 + 30)
 
     def bassSyncFromDial(self):
-        self.bassboostTsiframi.setValue(int(self.bassboostlevel.value()/10) + 1)
+        self.bassboostTsiframi.setValue(int(self.bassboostlevel.value() / 10) + 1)
+
 
 class Ui_PictureWindow(object):
     def setupUi(self, MainWindow):
@@ -307,18 +315,20 @@ class Ui_PictureWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.opisanie.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:48pt;\">Shakalizator</span></p>\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">media files quality lowering program based on python, ffmpeg, pillow libs and PyQT5 UI</span></p>\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:24pt;\">Shakalize picture menu</span></p></body></html>"))
-        self.pathToPict.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+        self.opisanie.setHtml(_translate("MainWindow",
+                                         "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                         "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                         "p, li { white-space: pre-wrap; }\n"
+                                         "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+                                         "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:48pt;\">Shakalizator</span></p>\n"
+                                         "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">media files quality lowering program based on python, ffmpeg, pillow libs and PyQT5 UI</span></p>\n"
+                                         "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:24pt;\">Shakalize picture menu</span></p></body></html>"))
+        self.pathToPict.setHtml(_translate("MainWindow",
+                                           "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                           "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                           "p, li { white-space: pre-wrap; }\n"
+                                           "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+                                           "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.pathToPict.setPlaceholderText(_translate("MainWindow", "Path/To/picture.jpg"))
         self.openPict.setText(_translate("MainWindow", "Open picture"))
         self.shakalize.setText(_translate("MainWindow", "Shakalize!"))
@@ -331,10 +341,8 @@ class Ui_PictureWindow(object):
         imgquality = self.quailty.value()
         shakal_img(imgname, imgquality)
 
-def shakal_video(video_full_path, output_file_name, audio_bitrate, video_bitrate, bass):
-    # audio_bitrate min 20, shakal 30, max 300
-    # video_bitrate min 100, shakal 150, max 1500
 
+def shakal_video(video_full_path, output_file_name, audio_bitrate, video_bitrate, bass):
     audio_bitrate = audio_bitrate * 1000
     video_bitrate = video_bitrate * 1000
 
@@ -350,11 +358,15 @@ def shakal_video(video_full_path, output_file_name, audio_bitrate, video_bitrate
 
     print("Finished shakalizing!")
 
+
 def shakal_img(imagename, img_quality):
     image = Image.open(imagename)
-    saveas = str(os.path.splitext(imagename)[0]) + "_shakalized.jpg"
-    image.save(saveas, "JPEG", quality=img_quality)
+    print(os.path.splitext(imagename))
+    saveas = str(os.path.splitext(imagename)[0]) + "_shakalized" + str(os.path.splitext(imagename)[1])
+    image.save(saveas, os.path.splitext(imagename)[1][1:] if os.path.splitext(imagename)[1][1:] != 'jpg' else 'JPEG',
+               quality=img_quality)
     print("Shakalized to quality {0}!".format(img_quality))
+
 
 app = QtWidgets.QApplication(sys.argv)
 
@@ -370,11 +382,14 @@ PictureWindow = QtWidgets.QMainWindow()
 uipict = Ui_PictureWindow()
 uipict.setupUi(PictureWindow)
 
+
 def launchvidmenu():
     VideoWindow.show()
 
+
 def launchpicmenu():
     PictureWindow.show()
+
 
 uimain.vidbutton.clicked.connect(launchvidmenu)
 uimain.imgbutton.clicked.connect(launchpicmenu)
