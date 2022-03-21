@@ -1,3 +1,2 @@
 # KOTIKOTstandalone
-Projects that will not appear in KOTIKOT_launcher \
-Or maybe will
+Projects that can be distributed standalone, without KOTIKOT_launcher
