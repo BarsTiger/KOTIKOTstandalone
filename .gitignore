@@ -1,0 +1,9 @@
+/.idea/
+/Tests/
+/Exes/shakalizator/Original/
+/KotoWebPlayer/
+/CatMoneyX/
+*.data*
+*.log
+*.mbtree
+*.mp4
